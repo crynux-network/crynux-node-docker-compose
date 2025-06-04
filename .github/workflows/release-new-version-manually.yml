@@ -21,7 +21,7 @@ jobs:
       contents: write
     strategy:
       matrix:
-        blockchain: [dymension, near]
+        blockchain: [dymension, near, kasplex]
     
     steps:
       - name: Checkout repository
