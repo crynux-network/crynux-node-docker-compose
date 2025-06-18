@@ -3,7 +3,7 @@ name: "crynux_node"
 
 services:
   crynux_node:
-    image: ghcr.io/crynux-ai/crynux-node:2.5.1-kasplex
+    image: ghcr.io/crynux-ai/crynux-node:2.5.2-kasplex
     container_name: crynux_node
     restart: unless-stopped
     ports:
