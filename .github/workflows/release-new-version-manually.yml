@@ -9,7 +9,7 @@ on:
         default: 'triggered by developer'
 
 env:
-  RELEASE_VERSION: 2.5.0
+  RELEASE_VERSION: 3.0.0
 
 permissions:  
   contents: write
@@ -21,7 +21,7 @@ jobs:
       contents: write
     strategy:
       matrix:
-        blockchain: [dymension, near, kasplex]
+        blockchain: [base, near]
     
     steps:
       - name: Checkout repository
@@ -36,7 +36,8 @@ jobs:
       
       - name: Generate docker-compose.yml
         run: |
-          bash generate.sh "${{ env.RELEASE_VERSION }}" "${{ matrix.blockchain }}"
+          chmod +x ./generate.sh
+          ./generate.sh "${{ env.RELEASE_VERSION }}" "${{ matrix.blockchain }}"
       
       - name: Configure Git
         run: |
