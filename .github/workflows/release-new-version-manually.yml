@@ -11,7 +11,7 @@ on:
 env:
   RELEASE_VERSION: 3.0.0
 
-permissions:  
+permissions:
   contents: write
 
 jobs:
@@ -22,31 +22,34 @@ jobs:
     strategy:
       matrix:
         blockchain: [base, near]
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: ${{ matrix.blockchain }}
-          
+
       - name: Print the version data
         run: |
           echo "Release version: ${{ env.RELEASE_VERSION }}"
           echo "Blockchain: ${{ matrix.blockchain }}"
-      
+
       - name: Generate docker-compose.yml
         run: |
           chmod +x ./generate.sh
           ./generate.sh "${{ env.RELEASE_VERSION }}" "${{ matrix.blockchain }}"
-      
+
       - name: Configure Git
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
-      
+
       - name: Commit and push changes
         run: |
           git add docker-compose.yml
+          if git diff --cached --quiet; then
+            echo "docker-compose.yml is already up to date for version ${{ env.RELEASE_VERSION }} on ${{ matrix.blockchain }}."
+            exit 0
+          fi
           git commit -m "Update docker-compose.yml to version ${{ env.RELEASE_VERSION }} for ${{ matrix.blockchain }}"
           git push origin ${{ matrix.blockchain }}
-    
