@@ -21,7 +21,7 @@ jobs:
       contents: write
     strategy:
       matrix:
-        blockchain: [base, near]
+        blockchain: [base, near, rh]
 
     steps:
       - name: Checkout repository
